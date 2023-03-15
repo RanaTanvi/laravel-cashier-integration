@@ -1,12 +1,3 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
@@ -21,46 +12,59 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## About Project
+This project is a Laravel application integrated with Stripe using Laravel Cashier. The application provides users with an additional 30-days of access to the application by extending their trial period or billing schedule by 30 days.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Getting Started
+ # Prerequisites
+    PHP ^7.4 or higher
+    Composer
+    Stripe account
+    Laravel cashier package
+    Installing
+    Clone the repository to your local machine
+    bash
+    
+# Copy code
+    git clone https://RanaTanvi@github.com/RanaTanvi/laravel-cashier-with-stripe.git
+    
+# Install dependencies using composer
+    bash
+     cd [repository-name]
+     composer install
+# Set up the database
+    Set up the database by copying the .env.example file and updating the DB_ fields with your database credentials
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    run the command below to terminal
+    cp .env.example .env
+    php artisan key:generate
+    php artisan migrate
+    Configure Stripe credentials in .env file by adding the following keys:
+    vbnet
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# set env variable
+    STRIPE_KEY=your-stripe-public-key
+    STRIPE_SECRET=your-stripe-secret-key
 
-## Laravel Sponsors
+## Usage
+    Register a new user by clicking on the Register button or link on the home page.
+    Enter the registration details.
+    Upon successful registration, the user is redirected to the Subscription page.
+    In Subscription page select the plan you want to subscribe then click on Checkout button
+    In Checkout page fill payment details.
+    After successfully subscription you are redirected to dashboard.
+    The Dashboard page displays the user's profile details, access expiration date, and options to extend access.
+    Click on the Extend Access button to extend access by 30 days.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    Running the Tests
+    To run the unit tests, execute the following command:
 
-### Premium Partners
+vendor/bin/phpunit
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Unit Tests
+test_user_can_register_and_subscribe - Test that a new user can register and subscribe successfully.
+test_user_can_extend_access_by_30_days - Test that a user can extend access by 30 days successfully.
+## Built With
+    Laravel - The PHP framework for web artisans
+    Stripe - The payments infrastructure for the internet
+    Laravel Cashier - A package for Stripe integration in Laravel

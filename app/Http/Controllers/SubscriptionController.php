@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Repositories\PlanRepository;
+use App\Services\SubscriptionService;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
 use Carbon\Carbon;
@@ -15,10 +16,12 @@ use Laravel\Cashier\Subscription;
 class SubscriptionController extends Controller
 {
     protected $planRepository;
+    protected $subscriptionService;
 
-    public function __construct(PlanRepository $planRepository)
+    public function __construct(PlanRepository $planRepository, SubscriptionService $subscriptionService)
     {
         $this->planRepository = $planRepository;
+        $this->subscriptionService = $subscriptionService;
     }
     public function showPlans()
     {
@@ -35,32 +38,17 @@ class SubscriptionController extends Controller
     public function handelCheckout(Request $request)
     {
         try {                                
-            $user = auth()->user();
-            $plan = $this->planRepository->getPlanById($request->plan_id);           
-            if($plan){
-                if (is_null($user->stripe_id)) {
-                    $stripeCustomer = $user->createAsStripeCustomer();
-                }
-
-                \Stripe\Customer::createSource(
-                    $user->stripe_id,
-                    ['source' => $request->input('card_token')]
-                );
-                
-                $subscription = $user->newSubscription('default', $plan->stripe_plan_id)
-                ->trialDays(30)      
-                ->create();
-
+            $subscription = $this->subscriptionService->createSubscription($request->all());
+            if($subscription) {
                 $data = ['message'=> 'You are successfully subscribed with '];                
                 return \Response::json([
                     'data' => $data,
                     'subscription'  => $subscription
                 ], '200');
-            } else {
+            }else {
                 return response()->json(['message'=> 'plan not found'], 404);
             }
         } catch (Exception $e) {
-            // dd($e);
             return response()->json(['message'=> $e->getMessage()], 400);
         }
     }
@@ -94,9 +82,7 @@ class SubscriptionController extends Controller
             $subscription->save();
             return redirect()->intended('/view/detail')->with('success', 'successfully extended access!');               
         } catch (\Exception $e) {
-            // dd($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());  
-            // Payment failed, handle the error
         }
     }
 

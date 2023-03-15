@@ -17,12 +17,12 @@ class PlanTableSeeder extends Seeder
             [
                 'name' => 'Basic',
                 'amount' => 20,
-                'stripe_plan_id' => 'price_1MlcDTLdWwDLvxaW4jvzqJtD',
+                'stripe_plan_id' => 'price_1MluAqLdWwDLvxaWzzobv4Xs'
             ],
             [
                 'name' => 'Premium',
                 'amount' => 40,
-                'stripe_plan_id' => 'price_1MlcDuLdWwDLvxaW04pI7rLN',
+                'stripe_plan_id' => 'price_1MluBZLdWwDLvxaWfot1HfUq',
             ],
         ]);
     }
